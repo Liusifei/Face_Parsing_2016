@@ -1,0 +1,17 @@
+net: "model-helen/face_parsing_v1.prototxt"
+test_iter: 33
+test_interval: 5000000
+base_lr: 0.0001
+momentum: 0.9
+weight_decay: 0.005
+clip_gradients: 100
+lr_policy: "step"
+gamma: 0.1
+stepsize: 30000
+display: 10
+max_iter: 100001
+snapshot: 5000
+snapshot_prefix: "model-helen/face_parsing_v1"
+solver_mode: GPU
+test_initialization:false
+device_id: 1
