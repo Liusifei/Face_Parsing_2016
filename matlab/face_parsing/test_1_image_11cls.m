@@ -1,5 +1,5 @@
 % run_demo.m
-function [label,edge] = test_1_image_11cls(img)
+function [label,edge] = test_1_image_11cls(net_,img)
 
 img = im2double(imresize(img,[128,128]));
 batchc = {single(img - 0.5)};

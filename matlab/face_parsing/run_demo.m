@@ -17,7 +17,7 @@ caffe.set_device(0);
 
 img = imread('YOUR IMAGE PATH');
 
-[label,edge] = test_1_image_11cls(img);
+[label,edge] = test_1_image_11cls(net_, img);
 vis_label = vishelen(im2double(img), label);
 save(fullfile(result_path,'res_label.mat'),'res_label');
 imwrite(vis_label, fullfile(result_path,'vis_label.png'));
