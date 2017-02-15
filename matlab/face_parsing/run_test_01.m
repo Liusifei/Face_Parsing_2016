@@ -12,7 +12,7 @@ trainedmodel = fullfile(state_path, 'face_parsing_v1_iter_20800.caffemodel');
 testproto = fullfile(model_path, 'face_parsing_v1_test.prototxt');
 net_ = caffe.Net(testproto, trainedmodel,'train');
 caffe.set_mode_gpu();
-caffe.set_device(0);
+caffe.set_device(1);
 
 save_file = fullfile(state_path, sprintf('helen_%.2d.mat', train_id));
 load(save_file);
@@ -26,7 +26,8 @@ for id = 1:Solver.testnum
 	Solver.iter = id;
 	[batch, label, ledge] = datalayer_helen_align(Solver, 'test');
 	batchc = {single(batch)};
-	active = net_.forward(batchc);
+    tic;
+	active = net_.forward(batchc);toc
 	for c = 1:length(active)
 		active_ = active{c};
 		if size(active_,3)==11

@@ -24,7 +24,7 @@ for iter = begin : Solver.max_iter
 	end
 	[batch, label, ledge] = datalayer_helen_align(Solver, 'train');
 	batchc = {single(batch)};
-	active = Solver.Solver_.net.forward(batchc);
+	tic;active = Solver.Solver_.net.forward(batchc);toc
 	delta = cell(size(active));
 	for c = 1 : length(active)
 		active_ = active{c};
