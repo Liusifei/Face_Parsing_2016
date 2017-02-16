@@ -3,7 +3,7 @@ function [label,edge] = test_1_image_11cls(net_,img)
 
 img = im2double(imresize(img,[128,128]));
 batchc = {single(img - 0.5)};
-active = net_.forward(batchc);
+tic;active = net_.forward(batchc);toc
 for c = 1:length(active)
 	active_ = active{c};
 	if size(active_,3)==11

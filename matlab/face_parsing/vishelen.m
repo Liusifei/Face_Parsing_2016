@@ -1,5 +1,5 @@
 function vis = vishelen(im, big_gc11)
-
+im = im2double(imresize(im,[128,128]));
 [r,c,~] = size(im);
 imcolor11 = zeros(size(im));
 cls11 = 11;
