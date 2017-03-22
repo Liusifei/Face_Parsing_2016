@@ -15,8 +15,5 @@ input_points = [IM_shape(1) IM_shape(6); IM_shape(2) IM_shape(7);...
 TFORM = cp2tform(input_points, base_points, 'similarity');
 
 [X, Y] = tformfwd(TFORM, IM_shape(1:5), IM_shape(6:10));
-<<<<<<< HEAD
 IM_shape_new = [X,Y];
-=======
 IM_shape_new = [X',Y']';
->>>>>>> b7a52d4731de8a231c25f18a99af4487daf46f4b
