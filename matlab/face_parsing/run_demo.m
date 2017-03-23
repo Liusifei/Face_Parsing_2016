@@ -3,7 +3,7 @@ addpath('../');
 addpath('../..');
 try
 	load('meanshape.mat');
-	load('helen_mean_shape.mat');
+	%load('helen_mean_shape.mat');
 catch
 	error('You need a 5pts mean shape.');
 end
