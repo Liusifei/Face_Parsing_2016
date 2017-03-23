@@ -31,8 +31,10 @@ else
 		img = fullfile(Solver.dataroot, 'testset', image_list_test(id).name);
 		short = image_list_test(id).name; short = short(1:end-4);
 		lab = fullfile(Solver.dataroot, 'labels', short);
+		lmk = fullfile(Solver.dataroot, 'testset', [short,'.txt']);
 		data.testlist_img{id} = img;
 		data.testlist_lab{id} = lab;
+		data.testlist_lmk{id} = ReadLmk(lmk);
 	end
 	fprintf('saving data structure ...\n');
     save(fullfile(Solver.dataroot, 'data.mat'), 'data');

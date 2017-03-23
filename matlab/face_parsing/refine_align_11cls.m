@@ -21,7 +21,7 @@ for iter = begin : Solver.max_iter
 		rng('shuffle');
 		Solver.idpool = randperm(Solver.trainnum);
 	end
-	[batch_lowres, batch_highres, label_gt] = datalayer_helen_align_2res(Solver, 'train'); % TODO
+	[batch_lowres, batch_highres, label_gt] = datalayer_helen_align_2res(Solver, 'train'); 
 	% CNN base segmentation
 	active = Solver.CNNnet.forward({single(batch_lowres)});
 	for c = 1 : length(active)
@@ -36,7 +36,7 @@ for iter = begin : Solver.max_iter
 	end
 	% RNN refine, one output only
 	[patch_batch, patch_gt, patch_lab] = ...
-		datalayer_randcrop4rnn(Solver, batch_highres, label_gt, lab_lowres); % TODO
+		datalayer_randcrop4rnn(Solver, batch_highres, label_gt, lab_lowres); 
 	active = Solver.Solver_.net.forward({cat(3,single(patch_batch),single(patch_lab))});
 	if length(active) > 2
 		error('RNN net should has only one output branch.');

@@ -35,15 +35,26 @@ function [batch_lowres, batch_highres, label_gt] = datalayer_helen_align_2res(So
    			end
 			slb = single(imtransform(lab_trans(:,:,1), T, 'XYScale',1,  'FillValues', 1));
 			slb(:,:,2:11) = single(imtransform(lab_trans(:,:,2:11), T, 'XYScale', 1,  'FillValues', 0));
-			batch_highres(:,:,:,m) = imresize(simg, [Solver.patchsize,Solver.patchsize],'bilinear')-0.5;
-			label_gt(:,:,:,m) = imresize(slb, [Solver.patchsize,Solver.patchsize], 'nearest');
+			batch_highres(:,:,:,m) = imresize(simg, [Solver.highres,Solver.highres],'bilinear')-0.5;
+			label_gt(:,:,:,m) = imresize(slb, [Solver.highres,Solver.highres], 'nearest');
+			batch_lowres(:,:,:,m) = imresize(simg, [Solver.lowres,Solver.lowres],'bilinear')-0.5;
 		else
-			img = im2double(imread(Solver.data_align.test(batch_ids(m)).impath));
-			lab = Solver.data_align.test(batch_ids(m)).lab;
-			batch(:,:,:,m) = imresize(img, [Solver.patchsize,Solver.patchsize],'bilinear')-0.5;
-			label(:,:,:,m) = imresize(lab, [Solver.patchsize,Solver.patchsize], 'nearest');
+			img = im2double(imread(Solver.data.testlist_img{batch_ids(m)}));
+			lmk = Solver.data.testlist_lmk{batch_ids(m)};
+			fol = Solver.data.testlist_lab{batch_ids(m)};
+			for k = 1:11
+				if k == 1
+					lab = im2double(imread(fullfile(fol,sprintf('%s_lbl%.2d',fol,k-1))));
+				else
+					lab(:,:,k) = im2double(imread(fullfile(fol,sprintf('%s_lbl%.2d',fol,k-1))));
+				end
+			end
+			[img_trans,retform] = AlignHelen(img, lmk, Solver.mean_shape, Solver.highres/250);
+			[lab_trans,retform] = AlignHelen(lab, lmk, Solver.mean_shape, Solver.highres/250);
+			batch_highres(:,:,:,m) = imresize(img_trans, [Solver.highres,Solver.highres],'bilinear')-0.5;
+			label_gt(:,:,:,m) = imresize(lab_trans, [Solver.highres,Solver.highres], 'nearest');
+			batch_lowres(:,:,:,m) = imresize(img_trans, [Solver.lowres,Solver.lowres],'bilinear')-0.5;
 		end
-        	ledge(:,:,:,m) = 1-lb2eb1(label(:,:,:,m));
 	end
 end
 
