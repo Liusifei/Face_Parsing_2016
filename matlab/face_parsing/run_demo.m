@@ -14,12 +14,13 @@ if ~exist(result_path,'dir')
 end
 
 train_id = 1;
-state_path = fullfile(model_path, sprintf('TrainID_%.2d',train_id));
+% state_path = fullfile(model_path, sprintf('TrainID_%.2d',train_id));
+state_path = model_path;
 trainedmodel = fullfile(state_path, 'face_parsing_v1_iter_20800.caffemodel');
-testproto = fullfile(model_path, 'face_parsing_v1_test.prototxt');
+testproto = fullfile(model_path, 'face_parsing_v1_test4one.prototxt');
 net_ = caffe.Net(testproto, trainedmodel,'train');
 caffe.set_mode_gpu();
-caffe.set_device(3);
+caffe.set_device(0);
 
 %img = imread('YOUR IMAGE PATH');
 img = imread('content/56.jpg');
@@ -32,3 +33,4 @@ res_label = imtransform(imresize(label,[size(img_new,1),size(img_new,2)]),ret,'X
 'YData',[1 size(img,1)],'XYscale',1, 'Fillvalues',0);
 save(fullfile(result_path,'res_label.mat'),'res_label');
 imwrite(vis_label, fullfile(result_path,'vis_label.png'));
+caffe.reset_all()
